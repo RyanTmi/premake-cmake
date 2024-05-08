@@ -155,7 +155,7 @@ function m.generate(prj)
 			_p(1, ')')
 		end
 
-		if #cfg.frameworkdirs > 0 or #cfg.includedirsafter > 0 then
+		if cfg.frameworkdirs or #cfg.frameworkdirs > 0 or #cfg.includedirsafter > 0 then
 			_p(1, 'if (MSVC)')
 			_p(2, 'target_compile_options("%s" PRIVATE %s)', prj.name, table.implode(p.tools.msc.getincludedirs(cfg, {}, {}, cfg.frameworkdirs, cfg.includedirsafter), "", "", " "))
 			_p(1, 'else()')
@@ -214,7 +214,13 @@ function m.generate(prj)
 				_p(2, '-Wl,--start-group')
 			end
 			for _, link in ipairs(config.getlinks(cfg, "system", "fullpath")) do
-				_p(2, '"%s"', link)
+				-- macos frameworks
+				local framework = string.match(link, "(.-)%.framework$")
+				if framework then
+					_p(2, '"-framework %s"', framework)
+				else
+					_p(2, '"%s"', link)
+				end
 			end
 			if uselinkgroups then
 				_p(2, '-Wl,--end-group')
