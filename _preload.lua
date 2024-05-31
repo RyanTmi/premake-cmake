@@ -16,7 +16,7 @@ local p = premake
 -- support cmake executable_suffix
 p.api.register {
 	name = "executable_suffix",
-	scope = "config",
+	scope = "specification",
 	kind = "string",
 }
 

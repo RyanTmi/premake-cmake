@@ -24,7 +24,7 @@ local m = cmake.workspace
 --
 function m.generate(wks)
 	p.utf8()
-	p.w('cmake_minimum_required(VERSION 3.16)')
+	p.w('cmake_minimum_required(VERSION 3.28)')
 	p.w()
 
 	local _platforms = {}
@@ -85,7 +85,7 @@ function m.generate(wks)
 	end
 	p.w()
 
-	p.w('project("%s")', wks.name)
+	p.w('project("%s" LANGUAGES C CXX OBJC OBJCXX)', wks.name)
 
 	--
 	-- Project list
